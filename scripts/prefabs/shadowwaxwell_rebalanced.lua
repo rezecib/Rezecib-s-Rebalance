@@ -42,12 +42,19 @@ local prefabs =
 local brain = require "brains/shadowwaxwellbrain_rebalanced"
 
 local function OnAttacked(inst, data)
-    if data.attacker ~= nil and
-        data.attacker.components.petleash ~= nil and
-        data.attacker.components.petleash:IsPet(inst) then
-        data.attacker.components.petleash:DespawnPet(inst)
-    else
-        inst.components.combat:SuggestTarget(data.attacker)
+    if data.attacker ~= nil then
+        if data.attacker.components.petleash ~= nil and
+            data.attacker.components.petleash:IsPet(inst) then
+            if inst.components.lootdropper == nil then
+                inst:AddComponent("lootdropper")
+            end
+			for i=1,3 do
+				inst.components.lootdropper:SpawnLootPrefab("nightmarefuel", inst:GetPosition())
+			end
+            data.attacker.components.petleash:DespawnPet(inst)
+        elseif data.attacker.components.combat ~= nil then
+            inst.components.combat:SuggestTarget(data.attacker)
+        end
     end
 end
 
@@ -205,9 +212,23 @@ local helmets = {
 	slurtlehat = true,
 }
 
+local function HealthRedirect(inst, amount, ...)
+	if amount < -60 then
+		inst.components.health:DoDelta(-60, ...)
+		return true --don't run the normal DoDelta
+	end
+	--implicit return nil, which makes the normal DoDelta run
+end
+
 local function AddHat(inst, hat)
 	inst._hat = hat
-	inst.components.health:SetAbsorptionAmount(helmets[hat] and .6 or 0)
+	if helmets[hat] then
+		inst.components.health:SetAbsorptionAmount(.25)
+		inst.components.health.redirect = HealthRedirect
+	else
+		inst.components.health:SetAbsorptionAmount(0)
+		inst.components.health.redirect = nil
+	end
 	inst.AnimState:OverrideSymbol("swap_hat", accepted_hats[hat], "swap_hat")
 	inst.AnimState:Hide("HAIR_NOHAT")
 	inst.AnimState:Hide("HAIR")

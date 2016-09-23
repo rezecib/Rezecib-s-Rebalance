@@ -32,7 +32,7 @@ local new_minions = {
 for _,data in ipairs(new_minions) do
 	local builderprefab = data.name.."_builder"
 	AddRecipe(builderprefab,
-			{Ingredient("nightmarefuel", 2),
+			{Ingredient("nightmarefuel", 5),
 			 Ingredient(data.item, 1),
 			 Ingredient(GLOBAL.CHARACTER_INGREDIENT.MAX_SANITY,
 						data.penalty)},
@@ -55,6 +55,10 @@ GLOBAL.STRINGS.NAMES.SHADOWDIGGER = "Shadow Digger"
 GLOBAL.STRINGS.NAMES.SHADOWDUELIST = "Shadow Duelist"
 GLOBAL.STRINGS.NAMES.SHADOWTORCHBEARER = "Shadow Torchbearer"
 GLOBAL.STRINGS.NAMES.SHADOWPORTER = "Shadow Porter"
+--Increase cost of other minions to 6 fuel
+for _,minion in ipairs({"shadowlumber", "shadowminer", "shadowdigger", "shadowduelist"}) do
+	GLOBAL.AllRecipes[minion.."_builder"].ingredients[1].amount = 5
+end
 
 local imbuers = {
 	'axe', 'goldenaxe',
@@ -184,7 +188,7 @@ AddPrefabPostInit("waxwell", function(inst)
 	local _OnNewSpawn = inst.OnNewSpawn
 	inst.OnNewSpawn = function(inst, ...)
 		_OnNewSpawn(inst, ...)
-		inst.components.inventory:ConsumeByName("nightmarefuel", 2)
+		inst.components.inventory:ConsumeByName("nightmarefuel", 1)
 	end
 	local _OnDespawn = inst.OnDespawn or function() end
 	inst.OnDespawn = function(inst, ...)

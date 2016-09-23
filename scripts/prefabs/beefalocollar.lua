@@ -37,4 +37,4 @@ local function fn()
     return inst
 end
 
-return Prefab("beefalocollar", fn, assets, prefabs)
+return Prefab("beefalocollar", fn, assets)

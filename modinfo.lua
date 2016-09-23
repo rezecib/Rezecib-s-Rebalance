@@ -1,7 +1,7 @@
 name = "Rezecib's Rebalance"
 description = "Makes many modifications to the game in an attempt to rebalance weak or annoying mechanics, and tone down some of the overpowered ones."
 author = "rezecib"
-version = "1.2.3"
+version = "1.2.4"
 
 --[[
 Major miscellaneous changes:
@@ -19,13 +19,13 @@ Major miscellaneous changes:
 	Extra-Adorable Lavae have health regen, do not die from starvation, do not light things on fire, and do not die when frozen
 
 Maxwell:
-	Can now change his minion types by giving them items, or make them stop working, but starts with 4 fuel instead of 6
-	Minions now all have 75 health, and non-duelists have 1/5 of the duelist regen
-	Minions can now keep up with him
+	Can now change his minion types by giving them items, or make them stop working, but starts with 5 fuel instead of 6
+	Minions now all have 75 health, and non-duelists have 1/5 of the duelist regen, but cost 5 fuel
+	Minions match Maxwell's speed
 	Chopper minions no longer run away from poison birchnuts (they will run away from the birchnutters, though)
 	Duelist minions have improved kiting (will still have trouble with groups of enemies)
-	Has several new minion types: torchbearer, porter
-	Minions can now be armored by football helmets or battle helms
+	Has two new minion types: torchbearer, porter
+	Minions can now be armored by football helmets or battle helms, for 25% armor and taking a maximum of 45 damage per hit
 
 Willow:
 	Can craft a Shadow Lighter with the Shadow Manipulator, a Lighter, and 2 Nightmare Fuel
