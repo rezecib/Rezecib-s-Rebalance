@@ -25,13 +25,13 @@ I really recommend [subscribing on Steam](http://steamcommunity.com/sharedfiles/
 - Abigail can now be disengaged/engaged (making her passive)
 
 **Maxwell:**
-- Can now change his minion types by giving them items, or make them stop working, but starts with 4 fuel instead of 6
+- Can now change his minion types by giving them items, or make them stop working, but they cost 5 fuel and Maxwell starts with 5 fuel instead of 6
 - Minions all have 75 health, and non-duelists have 1/5 of the duelist regen
 - Minions now match Maxwell's movement speed
 - Chopper minions no longer run away from poison birchnuts
 - Duelist minions have improved kiting (will still have trouble with groups of enemies)
 - Two new minion types: torchbearer, porter (picks items up)
-- Minions can be given hats. Armor hats give 60% reduction, all other hats are cosmetic.
+- Minions can be given hats. Armor hats give 25% reduction and prevents hits from doing more than 45 damage, all other hats are cosmetic.
 
 **Willow**
 - Can craft a Shadow Lighter at the Shadow Manipulator for a Lighter and 2 Nightmare Fuel
