@@ -34,6 +34,8 @@ local STOP_KITING_DIST = 5
 local RUN_AWAY_DIST = 5
 local STOP_RUN_AWAY_DIST = 8
 
+local AVOID_EXPLOSIVE_DIST = 5
+
 local DIG_TAGS = { "stump", "grave" }
 
 local function GetLeader(inst)
@@ -100,6 +102,12 @@ end
 local function ShouldDanceParty(inst)
     local leader = GetLeader(inst)
     return leader ~= nil and leader.sg:HasStateTag("dancing")
+end
+
+local function ShouldAvoidExplosive(target)
+    return target.components.explosive == nil
+        or target.components.burnable == nil
+        or target.components.burnable:IsBurning()
 end
 
 local function ShouldRunAway(inst, target)
@@ -197,6 +205,8 @@ function ShadowWaxwellBrain:OnStart()
 		
         WhileNode(function() return IsNearLeader(self.inst, KEEP_WORKING_DIST) end, "Leader In Range",
             PriorityNode({
+                --All shadows will avoid explosives
+                RunAway(self.inst, { fn = ShouldAvoidExplosive, tags = { "explosive" }, notags = { "INLIMBO" } }, AVOID_EXPLOSIVE_DIST, AVOID_EXPLOSIVE_DIST),
                 --Duelists will try to fight before fleeing
                 IfNode(IsMinionType(self.inst, "shadowduelist"), "Is Duelist",
                     PriorityNode({
