@@ -283,9 +283,9 @@ end
 
 local function turnoff_onemanband(inst)
 	inst.turnedon = nil
-	if inst.components.inventoryitem.owner then
-		local owner = inst.components.inventoryitem.owner
-		for follower,_ in pairs(owner.components.leader.followers) do
+	if inst.components.inventoryitem.owner and inst.components.inventoryitem.owner.components.leader then
+		local leader = inst.components.inventoryitem.owner.components.leader
+		for follower,_ in pairs(leader.followers) do
 			follower.components.locomotor:RemoveExternalSpeedMultiplier(inst, "onemanband")
 		end
 	end
