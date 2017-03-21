@@ -30,6 +30,13 @@ for _, moddir in ipairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
 	end
 end
 
+local WOODIEREWORKED = GLOBAL.KnownModIndex:IsModEnabled("workshop-888197520")
+for _, moddir in ipairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
+	if moddir == "workshop-888197520" then
+		WOODIEREWORKED = true
+	end
+end
+
 local function patch(name)
 	modimport("scripts/patches/"..name..".lua")
 end
@@ -47,9 +54,11 @@ patch("giantitems")
 
 if not GLOBAL.TheNet:GetIsServer() then return end
 
+if not WOODIEREWORKED then
+	patch("woodierework")
+end
 patch("wx78rework")
 patch("wolfgangrework")
-patch("woodierework")
 patch("diseaseregrowth")
 patch("thermalmeasurer")
 patch("shadowcreatures")
