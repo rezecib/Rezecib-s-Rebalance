@@ -52,6 +52,7 @@ I really recommend [subscribing on Steam](http://steamcommunity.com/sharedfiles/
 
 **Wolfgang:**
 - Wimpy/mighty states have set stats (no scaling), with 2x hunger drain in all states
+- Sanity drain multiplier increased from 1.1x to 1.5x
 - Wimpy: 0.9 scale, 0.75x damage, 150 health
 - Mighty: 1.25 scale, 1.75x damage, 300 health
 - His transform animations can now be canceled
