@@ -1,7 +1,7 @@
 name = "Rezecib's Rebalance"
 description = "Makes many modifications to the game in an attempt to rebalance weak or annoying mechanics, and tone down some of the overpowered ones."
 author = "rezecib"
-version = "1.2.6"
+version = "1.2.7"
 
 --[[
 Major miscellaneous changes:
@@ -47,8 +47,9 @@ Woodie:
 Wolfgang:
 	Instead of gradually scaling in his wimpy/mighty states, he has one set of stats for each
 	His hunger drain is 2x in all states, instead of scaling from 1x-3x
+	His sanity drain multiplier is increased from 1.1x to 1.5x
 	Wimpy: 0.9 scale, 0.75x damage, 150 health
-	Mighty: 1.25 scale, 1.75x damage, 300 health
+	Mighty: 1.25 scale, 2x damage, 300 health
 	His powerup/powerdown animations can now be canceled
 
 Beefalo domestication:
@@ -100,8 +101,6 @@ Minor miscellaneous changes:
 	Lanterns can now be turned off and on by haunting (50% chance)
 
 ==> TODO:
-
-Make worldgen not suck?
 
 Ancient Guardian:
 	Ancient Guardian has several zoning/ranged shadow attacks instead of just boring rhino AI

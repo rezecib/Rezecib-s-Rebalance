@@ -297,7 +297,7 @@ local function onequip_onemanband(inst, owner)
         inst.components.fueled:StartConsuming()
 		if owner:HasTag("monster") then
 			inst.hadmonster = true
-			inst:RemoveTag("monster")
+			owner:RemoveTag("monster")
 		end
     end
 	if inst.components.fueled:IsEmpty() then return end
@@ -309,8 +309,9 @@ local function onunequip_onemanband(inst, owner)
         owner.AnimState:ClearOverrideSymbol("swap_body_tall") 
         inst.components.fueled:StopConsuming()
 		if inst.hadmonster then
-			inst:AddTag("monster")
+			owner:AddTag("monster")
 		end
+		inst.hadmonster = nil
     end
 	turnoff_onemanband(inst)
 end

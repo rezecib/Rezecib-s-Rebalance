@@ -38,6 +38,8 @@ local AVOID_EXPLOSIVE_DIST = 5
 
 local DIG_TAGS = { "stump", "grave" }
 
+local IGNORE_ITEMS = { waxwelljournal = true, trap = true }
+
 local function GetLeader(inst)
     return inst.components.follower.leader
 end
@@ -63,8 +65,9 @@ local function FindEntityToWorkAction(inst, action, addtltags)
         local target = inst.sg.statemem.target
         if target ~= nil and
             target:IsValid() and
-            not target:IsInLimbo() and
-            not target:HasTag("NOCLICK") and
+            not (target:IsInLimbo() or
+                target:HasTag("NOCLICK") or
+                target:HasTag("event_trigger")) and
             target.components.workable ~= nil and
             target.components.workable:CanBeWorked() and
             target.components.workable:GetWorkAction() == action and
@@ -86,7 +89,7 @@ local function FindEntityToWorkAction(inst, action, addtltags)
         end
 
         --Find new target
-        target = FindEntity(leader, SEE_WORK_DIST, nil, { action.id.."_workable" }, { "fire", "smolder", "INLIMBO", "NOCLICK" }, addtltags)
+        target = FindEntity(leader, SEE_WORK_DIST, nil, { action.id.."_workable" }, { "fire", "smolder", "event_trigger", "INLIMBO", "NOCLICK" }, addtltags)
         return target ~= nil and BufferedAction(inst, target, action) or nil
     end
 end
@@ -157,7 +160,7 @@ local function FindItemToPickupAction(inst)
 		if item:IsOnValidGround() and item.components.inventoryitem
 		and item.components.inventoryitem.canbepickedup
 		and not item.components.inventoryitem:IsHeld()
-		and item.prefab ~= "waxwelljournal"
+		and not IGNORE_ITEMS[item.prefab]
 		and not item:HasTag("fire") and not item:HasTag("smolder") then
 			local has_free_slot = not inst.components.container:IsFull()
 			if not has_free_slot and item.components.stackable then

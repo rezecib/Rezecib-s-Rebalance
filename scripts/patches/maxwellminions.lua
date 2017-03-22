@@ -60,25 +60,6 @@ for _,minion in ipairs({"shadowlumber", "shadowminer", "shadowdigger", "shadowdu
 	GLOBAL.AllRecipes[minion.."_builder"].ingredients[1].amount = 5
 end
 
-local imbuers = {
-	'axe', 'goldenaxe',
-	'pickaxe', 'goldenpickaxe',
-	'shovel', 'goldenshovel',
-	'spear', 'spear_wathgrithr',
-	'torch',
-	'trap',
-	"strawhat", "tophat", "beefalohat", "featherhat",
-	"beehat", "minerhat", "spiderhat", "footballhat",
-	"earmuffshat", "winterhat", "bushhat", "flowerhat",
-	"walrushat", "slurtlehat", "ruinshat", "molehat",
-	"wathgrithrhat", "icehat", "rainhat", "catcoonhat",
-	"watermelonhat", "eyebrellahat",
-}
-local add_imbuer = function(inst) inst:AddComponent('imbuer') end
-for _,prefab in ipairs(imbuers) do
-	AddPrefabPostInit(prefab, add_imbuer)
-end
-
 local IMBUE = AddAction("IMBUE", "Imbue", function(act)
 	if act.invobject and act.invobject.components.imbuer --it's something we can give to a minion
 	and act.target and act.target:HasTag("imbuable") --we're targeting a minion
@@ -182,6 +163,25 @@ AddStategraphState("shadowmaxwell", GLOBAL.State{
 AddStategraphActionHandler("shadowmaxwell", GLOBAL.ActionHandler(GLOBAL.ACTIONS.PICKUP, "doshortaction"))
 
 if not GLOBAL.TheNet:GetIsServer() then return end
+
+local imbuers = {
+	'axe', 'goldenaxe',
+	'pickaxe', 'goldenpickaxe',
+	'shovel', 'goldenshovel',
+	'spear', 'spear_wathgrithr',
+	'torch',
+	'trap',
+	"strawhat", "tophat", "beefalohat", "featherhat",
+	"beehat", "minerhat", "spiderhat", "footballhat",
+	"earmuffshat", "winterhat", "bushhat", "flowerhat",
+	"walrushat", "slurtlehat", "ruinshat", "molehat",
+	"wathgrithrhat", "icehat", "rainhat", "catcoonhat",
+	"watermelonhat", "eyebrellahat",
+}
+local add_imbuer = function(inst) inst:AddComponent('imbuer') end
+for _,prefab in ipairs(imbuers) do
+	AddPrefabPostInit(prefab, add_imbuer)
+end
 
 AddPrefabPostInit("waxwell", function(inst)
 	--reduce his spawning nightmare fuel to 4 to remove easy farming from the start

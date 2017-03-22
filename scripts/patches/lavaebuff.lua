@@ -17,6 +17,7 @@ AddPrefabPostInit("lavae_pet", function(inst)
 	inst:RemoveComponent("propagator")
 	--Give it regen
 	inst.components.health:StartRegen(250*3/60, 3)
+	inst.components.freezable.damagetobreak = math.huge --prevent attacks from unfreezing it
 end)
 
 local BrainSurgery = GLOBAL.require("tools/brainsurgery")
@@ -42,6 +43,13 @@ AddStategraphPostInit("lavae", function(sg)
 			inst.sg:GoToState("hit")
 		else
 			_thaw_unfreeze_fn(inst, ...)
+		end
+	end
+	_onattackedfn = sg.events.attacked.fn
+	sg.events.attacked.fn = function(inst, data, ...)
+		if not inst.sg:HasStateTag("frozen") then
+			--Don't let lavae get knocked out of the frozen state by being hit
+			_onattackedfn(inst, data, ...)
 		end
 	end
 end)
