@@ -103,6 +103,5 @@ I really recommend [subscribing on Steam](http://steamcommunity.com/sharedfiles/
 
 # List of changes I'm thinking about:
 - Revamp the ancient guardian fight so it's not just boring rhino AI
-- Make worldgen configuration options not suck? Might be beyond my abilities, though
 - A Bernie buff?
 - Changes to make smallbirds useful?
