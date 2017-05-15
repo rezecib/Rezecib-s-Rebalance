@@ -18,7 +18,7 @@ AddStategraphPostInit("shadowcreature", function(sg)
 end)
 
 local function RemoveRecentlyAttacked(inst)
-	inst._recently_attackd = nil
+	inst._recently_attacked = nil
 end
 
 local function AddRecentlyAttacked(inst)
@@ -26,7 +26,7 @@ local function AddRecentlyAttacked(inst)
 	if inst._recently_attacked_task then
 		inst._recently_attacked_task:Cancel()
 	end
-	inst._recently_attacked_task = inst:DoTaskInTime(100, RemoveRecentlyAttacked)
+	inst._recently_attacked_task = inst:DoTaskInTime(15, RemoveRecentlyAttacked)
 end
 
 for _,prefab in pairs({"crawlinghorror", "terrorbeak"}) do
