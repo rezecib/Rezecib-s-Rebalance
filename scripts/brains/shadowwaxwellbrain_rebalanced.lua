@@ -122,7 +122,9 @@ end
 local function UpdateForTarget(inst, target)
 	if target ~= nil and target.components.combat and target.components.combat.target then
 		if target ~= inst._brain_last_target then
-			local range = target.components.combat:GetAttackRange()
+			-- Previously used the line below for range, but it causes problems with the Ewecus snotbomb
+			-- local range = target.components.combat:GetAttackRange()
+			local range = target.components.combat.attackrange
 			inst._brain_DuelistRunAwayNode.see_dist = math.max(range*1.25, KITING_DIST)
 			inst._brain_DuelistRunAwayNode.safe_dist = math.max(range*1.5, STOP_KITING_DIST)
 			inst._brain_cooldown_threshold = range/inst.components.locomotor.runspeed + .25
