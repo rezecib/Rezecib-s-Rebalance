@@ -1,50 +1,42 @@
-PrefabFiles = {
-	-- "shadowwaxwell", --Save this for later after checking for conflicting Maxwell rework mods
-	"shadowtorchfire",
-	"willowshadowfire",
-	"shadowlighter",
-	"shadowlighterfire",
-	"beefalocollar",
-}
-
-Assets = {
-	Asset( "IMAGE", "images/inventoryimages/beefalocollar.tex" ),
-	Asset( "ATLAS", "images/inventoryimages/beefalocollar.xml" ),
-	Asset( "ATLAS", "images/inventoryimages/shadowporter_builder.xml" ),
-	Asset( "IMAGE", "images/inventoryimages/shadowporter_builder.tex" ),
-	Asset( "ATLAS", "images/inventoryimages/shadowtorchbearer_builder.xml" ),
-	Asset( "IMAGE", "images/inventoryimages/shadowtorchbearer_builder.tex" ),
-	Asset( "IMAGE", "images/inventoryimages/shadowlighter.tex" ),
-	Asset( "ATLAS", "images/inventoryimages/shadowlighter.xml" ),
-	Asset( "IMAGE", "minimap/shadowlighter.tex" ),
-	Asset( "ATLAS", "minimap/shadowlighter.xml" ),
-}
-AddMinimapAtlas("minimap/shadowlighter.xml")
+--These will get filled in by the patch files
+PrefabFiles = {}
+Assets = {}
 
 local require = GLOBAL.require
+local TheNet = GLOBAL.TheNet
+local KnownModIndex = GLOBAL.KnownModIndex
 
-local MAXWELLREWORKED = GLOBAL.KnownModIndex:IsModEnabled("workshop-741272188")
-for _, moddir in ipairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
-	if moddir == "workshop-741272188" then
-		MAXWELLREWORKED = true
+local function IsModLoaded(workshop_name)
+	if KnownModIndex:IsModEnabled(workshop_name) then return true end
+	for _, moddir in ipairs(KnownModIndex:GetModsToLoad()) do
+		if moddir == workshop_name then
+			return true
+		end
 	end
+	return false
 end
 
-local WOODIEREWORKED = GLOBAL.KnownModIndex:IsModEnabled("workshop-888197520")
-for _, moddir in ipairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
-	if moddir == "workshop-888197520" then
-		WOODIEREWORKED = true
-	end
-end
+-- Some mods do things that should override these patches
+local overrides = {
+	maxwellminions = IsModLoaded("workshop-741272188"),
+	woodierework = IsModLoaded("workshop-888197520"),
+}
 
+local IS_PUBLIC = not (
+		TheNet:GetServerLANOnly()
+	or	TheNet:GetServerFriendsOnly()
+	or	TheNet:GetServerClanOnly()
+	or	TheNet:GetServerHasPassword()
+)
+
+-- The ~= false is just to make sure that if it's nil for some reason, it considers it true
 local function patch(name)
-	modimport("scripts/patches/"..name..".lua")
+	if (IS_PUBLIC or (GetModConfigData(name) ~= false)) and not overrides[name] then
+		modimport("scripts/patches/"..name..".lua")
+	end
 end
 
-if not MAXWELLREWORKED then
-	table.insert(PrefabFiles, "shadowwaxwell_rebalanced")
-	patch("maxwellminions")
-end
+patch("maxwellminions")
 patch("attackfixes")
 patch("beefalodomestication")
 patch("willowrework")
@@ -52,11 +44,9 @@ patch("ancientguardian")
 patch("ancientmagic")
 patch("giantitems")
 
-if not GLOBAL.TheNet:GetIsServer() then return end
+if not TheNet:GetIsServer() then return end
 
-if not WOODIEREWORKED then
-	patch("woodierework")
-end
+patch("woodierework")
 patch("wx78rework")
 patch("wolfgangrework")
 patch("diseaseregrowth")

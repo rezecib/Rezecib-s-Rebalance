@@ -6,6 +6,15 @@ scripts/prefabs/willowshadowfire
 		components/shadowburner	
 ]]
 
+table.insert(PrefabFiles, "willowshadowfire")
+table.insert(PrefabFiles, "shadowlighter")
+table.insert(PrefabFiles, "shadowlighterfire")
+table.insert(Assets, Asset( "ATLAS", "images/inventoryimages/shadowlighter.xml" ))
+table.insert(Assets, Asset( "IMAGE", "images/inventoryimages/shadowlighter.tex" ))
+table.insert(Assets, Asset( "ATLAS", "minimap/shadowlighter.xml" ))
+table.insert(Assets, Asset( "IMAGE", "minimap/shadowlighter.tex" ))
+AddMinimapAtlas("minimap/shadowlighter.xml")
+
 local require = GLOBAL.require
 local TUNING = GLOBAL.TUNING
 

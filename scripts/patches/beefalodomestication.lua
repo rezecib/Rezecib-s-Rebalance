@@ -3,9 +3,13 @@ Dependencies:
 scripts/components/domesticatable
 				   beefalosaver
 		prefabs/beefalocollar
-			  upvaluehacker
 		widgets/beefalowidget
+		tools/upvaluehacker
 ]]
+
+table.insert(PrefabFiles, "beefalocollar")
+table.insert(Assets, Asset( "ATLAS", "images/inventoryimages/beefalocollar.xml" ))
+table.insert(Assets, Asset( "IMAGE", "images/inventoryimages/beefalocollar.tex" ))
 
 local TheNet = GLOBAL.TheNet
 local require = GLOBAL.require

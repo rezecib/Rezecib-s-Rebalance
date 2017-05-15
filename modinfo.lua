@@ -1,7 +1,7 @@
 name = "Rezecib's Rebalance"
 description = "Makes many modifications to the game in an attempt to rebalance weak or annoying mechanics, and tone down some of the overpowered ones."
 author = "rezecib"
-version = "1.2.7"
+version = "1.3"
 
 --[[
 Major miscellaneous changes:
@@ -45,8 +45,7 @@ Woodie:
 	Removed pinecone sanity gain
 	
 Wolfgang:
-	Instead of gradually scaling in his wimpy/mighty states, he has one set of stats for each
-	His hunger drain is 2x in all states, instead of scaling from 1x-3x
+	Wimpy/mighty states have set stats (no scaling), with 2x hunger drain in all states
 	His sanity drain multiplier is increased from 1.1x to 1.5x
 	Wimpy: 0.9 scale, 0.75x damage, 150 health
 	Mighty: 1.25 scale, 2x damage, 300 health
@@ -129,3 +128,34 @@ dst_compatible = true
 
 client_only_mod = false
 all_clients_require_mod = true
+
+configuration_options = {}
+local on_off_options = {
+	{description = "On", data = true},
+	{description = "Off", data = false},
+}
+local function AddPatch(name, label)
+	configuration_options[#configuration_options + 1] = {
+		name = name,
+		label = label,
+		options = on_off_options,
+		default = true,
+		hover = "Note: config options are ignored for public servers.",
+	}
+end
+
+AddPatch("beefalodomestication", "Beefalo Changes")
+AddPatch("maxwellminions",       "Maxwell Rework")
+AddPatch("willowrework",         "Willow Rework")
+AddPatch("wolfgangrework",       "Wolfgang Rework")
+AddPatch("woodierework",         "Woodie Rework")
+AddPatch("wx78rework",           "WX-78 Changes")
+AddPatch("ancientguardian",      "Ancient Guardian Changes")
+AddPatch("ancientmagic",         "Magic Item Changes")
+AddPatch("giantitems",           "Giant Item Changes")
+AddPatch("lavaebuff",            "Lavae Buff")
+AddPatch("diseaseregrowth",      "Disease/Regrowth Changes")
+AddPatch("thermalmeasurer",      "Thermal Measurer Buff")
+AddPatch("shadowcreatures",      "Shadow Creature Fixes")
+AddPatch("lanternhaunt",         "Lantern Haunt Fix")
+AddPatch("attackfixes",          "Attack Fixes")

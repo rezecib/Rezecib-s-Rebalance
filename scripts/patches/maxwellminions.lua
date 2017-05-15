@@ -10,6 +10,13 @@ Potential changes:
 	Change duelist cost to dark sword
 ]]
 
+table.insert(PrefabFiles, "shadowwaxwell_rebalanced")
+table.insert(PrefabFiles, "shadowtorchfire")
+table.insert(Assets, Asset( "ATLAS", "images/inventoryimages/shadowporter_builder.xml" ))
+table.insert(Assets, Asset( "IMAGE", "images/inventoryimages/shadowporter_builder.tex" ))
+table.insert(Assets, Asset( "ATLAS", "images/inventoryimages/shadowtorchbearer_builder.xml" ))
+table.insert(Assets, Asset( "IMAGE", "images/inventoryimages/shadowtorchbearer_builder.tex" ))
+
 local require = GLOBAL.require
 
 local new_minions = {
