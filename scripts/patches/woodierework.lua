@@ -28,7 +28,7 @@ local function BeaverHealthRedirect(inst, amount, overtime, cause, ignore_invinc
 	if amount >= 0 then return false end --don't intercept positive deltas
 	--prevent an infinite loop by "failing" the redirect if there's no log meter to absorb it
 	if inst.components.beaverness.current == 0 then return false end
-	local armor = (overtime or ignore_absorb) and 1 or TUNING.ARMORGRASS_ABSORPTION
+	local armor = (overtime or ignore_absorb) and 1 or (1 - TUNING.ARMORGRASS_ABSORPTION)
 	local log_delta = math.max(-inst.components.beaverness.current/armor, amount)
 	inst.components.beaverness:DoDelta(log_delta*armor, true)
 	local health_delta = amount - log_delta
