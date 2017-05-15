@@ -212,8 +212,16 @@ local helmets = {
 	slurtlehat = true,
 }
 
-local function HealthRedirect(inst, amount, ...)
+local function HealthRedirectDefault(inst, amount, overtime, cause, ignore_invincible, afflicter, ...)
+	-- Don't take damage from earthquakes
+	return afflicter ~= nil and afflicter:HasTag("quakedebris")
+end
+
+local function HealthRedirectArmor(inst, amount, ...)
+	-- Carry over the immunity to earthquake damage
+	if HealthRedirectDefault(inst, amount, ...) then return true end
 	if amount < -60 then
+		-- Maximum damage taken in one hit is 60
 		inst.components.health:DoDelta(-60, ...)
 		return true --don't run the normal DoDelta
 	end
@@ -224,10 +232,10 @@ local function AddHat(inst, hat)
 	inst._hat = hat
 	if helmets[hat] then
 		inst.components.health:SetAbsorptionAmount(.25)
-		inst.components.health.redirect = HealthRedirect
+		inst.components.health.redirect = HealthRedirectArmor
 	else
 		inst.components.health:SetAbsorptionAmount(0)
-		inst.components.health.redirect = nil
+		inst.components.health.redirect = HealthRedirectDefault
 	end
 	inst.AnimState:OverrideSymbol("swap_hat", accepted_hats[hat], "swap_hat")
 	inst.AnimState:Hide("HAIR_NOHAT")
@@ -369,6 +377,7 @@ local function MakeMinion(prefab, tool, hat, master_postinit)
 
         inst:AddTag("scarytoprey")
         inst:AddTag("shadowminion")
+		inst:AddTag("NOBLOCK")
         inst:SetPrefabNameOverride("shadowwaxwell")
 
         inst.entity:SetPristine()
@@ -385,6 +394,7 @@ local function MakeMinion(prefab, tool, hat, master_postinit)
         inst:AddComponent("health")
 		inst.components.health:SetMaxHealth(TUNING.SHADOWWAXWELL_LIFE)
         inst.components.health.nofadeout = true
+		inst.components.health.redirect = HealthRedirectDefault
 
         inst:AddComponent("combat")
         inst.components.combat.hiteffectsymbol = "torso"
