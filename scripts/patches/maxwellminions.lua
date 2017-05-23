@@ -10,7 +10,7 @@ Potential changes:
 	Change duelist cost to dark sword
 ]]
 
-table.insert(PrefabFiles, "shadowwaxwell_rebalanced")
+table.insert(PrefabFiles, "shadowwaxwell_rezecibsrebalance")
 table.insert(PrefabFiles, "shadowtorchfire")
 table.insert(Assets, Asset( "ATLAS", "images/inventoryimages/shadowporter_builder.xml" ))
 table.insert(Assets, Asset( "IMAGE", "images/inventoryimages/shadowporter_builder.tex" ))

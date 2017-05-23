@@ -1,11 +1,12 @@
 --[[
 Dependencies:
-scripts/components/domesticatable
-				   beefalosaver
+scripts/component_replacements/domesticatable
+scripts/components/beefalosaver
 		prefabs/beefalocollar
 		widgets/beefalowidget
 		tools/upvaluehacker
 ]]
+
 
 table.insert(PrefabFiles, "beefalocollar")
 table.insert(Assets, Asset( "ATLAS", "images/inventoryimages/beefalocollar.xml" ))
@@ -14,8 +15,11 @@ table.insert(Assets, Asset( "IMAGE", "images/inventoryimages/beefalocollar.tex" 
 local TheNet = GLOBAL.TheNet
 local require = GLOBAL.require
 local TUNING = GLOBAL.TUNING
-
 local UpvalueHacker = require("tools/upvaluehacker")
+
+-- This will load the original component and replace most of it
+require("components_rezecibsrebalance/domesticatable")
+
 local writeables = require("writeables")
 local kinds = UpvalueHacker.GetUpvalue(writeables.makescreen, "kinds")
 local beefalo_names = {
