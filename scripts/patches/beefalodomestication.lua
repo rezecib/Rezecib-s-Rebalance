@@ -405,8 +405,18 @@ function Brushable:Brush(...)
 	end
 end
 
+local saddle_fuel_factor = 1/4
+
 local function ondiscarded(inst)
-	inst.components.fueled:DoDelta(-TUNING.SEWINGKIT_REPAIR_VALUE)
+	inst.components.fueled:DoDelta(-TUNING.SEWINGKIT_REPAIR_VALUE*saddle_fuel_factor)
+end
+
+local function saddle_ondepleted(inst)
+	if inst.parent then -- we are on a beefalo right now
+		inst.parent.components.rideable:Buck(true)
+		inst.parent.components.rideable:SetSaddle()
+	end
+	inst:Remove()
 end
 
 local function SaddlePostInit(inst)
@@ -415,9 +425,12 @@ local function SaddlePostInit(inst)
 	--Add the fueled component immediately so it can load any data it has
 	inst:AddComponent("fueled")
 	inst.components.fueled.fueltype = GLOBAL.FUELTYPE.USAGE
-	inst.components.fueled:InitializeFuelLevel(TUNING.SEWINGKIT_REPAIR_VALUE*uses)
-	inst.components.fueled:SetDepletedFn(inst.Remove)
-	-- inst.components.fueled.rate = 1 --rate of 1 is probably fine, should be 25-40 days of riding
+	inst.components.fueled:InitializeFuelLevel(TUNING.SEWINGKIT_REPAIR_VALUE*uses*saddle_fuel_factor)
+	inst.components.fueled:SetDepletedFn(saddle_ondepleted)
+	-- a rate of 1 means that a sewing kit repairs 5 days worth of usage
+	-- basic saddles can be ridden for 25*factor days (currently 6.25)
+	-- glossamer and war saddles can be ridden for 40*factor days (currently 10 days)
+	-- inst.components.fueled.rate = 1
 	
 	--Set the finiteuses to something impossible so we know if it loads old data
 	local impossible_uses = inst.components.finiteuses.total + 1
@@ -426,7 +439,7 @@ local function SaddlePostInit(inst)
 	inst:DoTaskInTime(0, function(inst)
 		local uses = inst.components.finiteuses:GetUses()
 		if uses ~= impossible_uses then --it loaded finiteuses data, transform it to fuel
-			inst.components.fueled:InitializeFuelLevel(TUNING.SEWINGKIT_REPAIR_VALUE*uses)
+			inst.components.fueled:InitializeFuelLevel(TUNING.SEWINGKIT_REPAIR_VALUE*uses*saddle_fuel_factor)
 		end
 		inst:RemoveComponent("finiteuses")
 		inst.components.fueled:DoDelta(0) --make it update the %
