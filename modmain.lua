@@ -9,6 +9,7 @@ local KnownModIndex = GLOBAL.KnownModIndex
 -- Some mods do things that should override these patches, check for them
 local CHECK_MODS = {
 	["workshop-741272188"] = "maxwellminions",
+	["workshop-1717160740"] = "maxwellminions",
 	["workshop-888197520"] = "woodierework",
 }
 local PATCH_CONFLICT = {}
