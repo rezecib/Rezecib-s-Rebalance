@@ -36,13 +36,13 @@ GLOBAL.ACTIONS.BLINK.fn = function(act)
 end
 
 local function HearPanFlute(inst, musician, instrument)
-    if inst ~= musician and
-        (TheNet:GetPVPEnabled() or not inst:HasTag("player")) and
-        not (inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()) and
-        not (inst.components.pinnable ~= nil and inst.components.pinnable:IsStuck()) then
-        if inst.components.sleeper ~= nil then
-            inst.components.sleeper:AddSleepiness(10, TUNING.PANFLUTE_SLEEPTIME)
-        elseif inst.components.grogginess ~= nil then
+	if inst ~= musician and
+		(TheNet:GetPVPEnabled() or not inst:HasTag("player")) and
+		not (inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()) and
+		not (inst.components.pinnable ~= nil and inst.components.pinnable:IsStuck()) then
+		if inst.components.sleeper ~= nil then
+			inst.components.sleeper:AddSleepiness(10, TUNING.PANFLUTE_SLEEPTIME)
+		elseif inst.components.grogginess ~= nil then
 			local amount = 10
 			if inst.components.inventory then
 				local hat = inst.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HEAD)
@@ -50,11 +50,11 @@ local function HearPanFlute(inst, musician, instrument)
 					amount = 2
 				end
 			end
-            inst.components.grogginess:AddGrogginess(amount, TUNING.PANFLUTE_SLEEPTIME)
-        else
-            inst:PushEvent("knockedout")
-        end
-    end
+			inst.components.grogginess:AddGrogginess(amount, TUNING.PANFLUTE_SLEEPTIME)
+		else
+			inst:PushEvent("knockedout")
+		end
+	end
 end
 
 --I can't believe I have to resort to this for this kind of change, but... 'tis the mod life, I guess
@@ -159,8 +159,8 @@ AddPrefabPostInit("orangestaff", function(inst)
 	end
 	
 	--Inherit this from cane
-    inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(TUNING.CANE_DAMAGE)
+	inst:AddComponent("weapon")
+	inst.components.weapon:SetDamage(TUNING.CANE_DAMAGE)
 	
 	convert_finiteuses_to_fueled(inst, FUELTYPE.ORANGEGEM, orangestaff_rate) --1 gem per 20 telepoofs
 end)
@@ -206,12 +206,12 @@ AddPrefabPostInit("multitool_axe_pickaxe", function(inst)
 end)
 
 AddPrefabPostInit("nightlight", function(inst)
-    inst:AddComponent("childspawner")
-    inst.components.childspawner:SetRegenPeriod(5)
-    inst.components.childspawner:SetSpawnPeriod(30)
-    inst.components.childspawner:SetMaxChildren(0)
-    inst.components.childspawner.childname = "crawlingnightmare"
-    inst.components.childspawner:SetRareChild("nightmarebeak", 0.35)
+	inst:AddComponent("childspawner")
+	inst.components.childspawner:SetRegenPeriod(5)
+	inst.components.childspawner:SetSpawnPeriod(30)
+	inst.components.childspawner:SetMaxChildren(0)
+	inst.components.childspawner.childname = "crawlingnightmare"
+	inst.components.childspawner:SetRareChild("nightmarebeak", 0.35)
 	inst.components.childspawner.onchildkilledfn = function(inst, child)
 		inst.components.fueled:DoDelta(-TUNING.SMALL_FUEL)
 	end
@@ -304,27 +304,27 @@ local function turnoff_onemanband(inst)
 end
 
 local function onequip_onemanband(inst, owner)
-    if owner then
-        owner.AnimState:OverrideSymbol("swap_body_tall", "swap_one_man_band", "swap_body_tall")
-        inst.components.fueled:StartConsuming()
+	if owner then
+		owner.AnimState:OverrideSymbol("swap_body_tall", "swap_one_man_band", "swap_body_tall")
+		inst.components.fueled:StartConsuming()
 		if owner:HasTag("monster") then
 			inst.hadmonster = true
 			owner:RemoveTag("monster")
 		end
-    end
+	end
 	if inst.components.fueled:IsEmpty() then return end
 	turnon_onemanband(inst)
 end
 
 local function onunequip_onemanband(inst, owner)
-    if owner then
-        owner.AnimState:ClearOverrideSymbol("swap_body_tall") 
-        inst.components.fueled:StopConsuming()
+	if owner then
+		owner.AnimState:ClearOverrideSymbol("swap_body_tall") 
+		inst.components.fueled:StopConsuming()
 		if inst.hadmonster then
 			owner:AddTag("monster")
 		end
 		inst.hadmonster = nil
-    end
+	end
 	turnoff_onemanband(inst)
 end
 
@@ -345,21 +345,21 @@ end)
 
 AddPrefabPostInit("book_sleep", function(inst)
 	inst.components.book.onread = function(inst, reader)
-            reader.components.sanity:DoDelta(-TUNING.SANITY_LARGE)
+			reader.components.sanity:DoDelta(-TUNING.SANITY_LARGE)
 
-            local x, y, z = reader.Transform:GetWorldPosition()
-            local range = 30
-            local ents = GLOBAL.TheNet:GetPVPEnabled() and
-                        GLOBAL.TheSim:FindEntities(x, y, z, range, nil, { "playerghost" }, { "sleeper", "player" }) or
-                        GLOBAL.TheSim:FindEntities(x, y, z, range, { "sleeper" }, { "player" })
-            for i, v in ipairs(ents) do
-                if v ~= reader and
+			local x, y, z = reader.Transform:GetWorldPosition()
+			local range = 30
+			local ents = GLOBAL.TheNet:GetPVPEnabled() and
+						GLOBAL.TheSim:FindEntities(x, y, z, range, nil, { "playerghost" }, { "sleeper", "player" }) or
+						GLOBAL.TheSim:FindEntities(x, y, z, range, { "sleeper" }, { "player" })
+			for i, v in ipairs(ents) do
+				if v ~= reader and
 				not (v.components.freezable ~= nil and v.components.freezable:IsFrozen()) and
 				not (v.components.pinnable ~= nil and v.components.pinnable:IsStuck())
 				and (not v:HasTag("player") or reader:IsNear(v, 15)) then
-                    if v.components.sleeper ~= nil then
-                        v.components.sleeper:AddSleepiness(10, 20)
-                    elseif v.components.grogginess ~= nil then
+					if v.components.sleeper ~= nil then
+						v.components.sleeper:AddSleepiness(10, 20)
+					elseif v.components.grogginess ~= nil then
 						local amount = 10
 						if v.components.inventory then
 							local hat = v.components.inventory:GetEquippedItem(GLOBAL.EQUIPSLOTS.HEAD)
@@ -367,12 +367,12 @@ AddPrefabPostInit("book_sleep", function(inst)
 								amount = 2
 							end
 						end
-                        v.components.grogginess:AddGrogginess(amount, 20)
-                    else
-                        v:PushEvent("knockedout")
-                    end
-                end
-            end
-            return true
-        end
+						v.components.grogginess:AddGrogginess(amount, 20)
+					else
+						v:PushEvent("knockedout")
+					end
+				end
+			end
+			return true
+		end
 end)
