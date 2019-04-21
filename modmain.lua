@@ -32,7 +32,6 @@ patch("maxwellminions")
 patch("attackfixes")
 patch("beefalodomestication")
 patch("willowrework")
-patch("ancientguardian")
 patch("ancientmagic")
 patch("giantitems")
 
