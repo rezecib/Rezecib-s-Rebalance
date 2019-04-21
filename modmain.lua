@@ -6,24 +6,26 @@ local require = GLOBAL.require
 local TheNet = GLOBAL.TheNet
 local KnownModIndex = GLOBAL.KnownModIndex
 
-local function IsModLoaded(workshop_name)
-	if KnownModIndex:IsModEnabled(workshop_name) then return true end
-	for _, moddir in ipairs(KnownModIndex:GetModsToLoad()) do
-		if moddir == workshop_name then
-			return true
-		end
+-- Some mods do things that should override these patches, check for them
+local CHECK_MODS = {
+	["workshop-741272188"] = "maxwellminions",
+	["workshop-888197520"] = "woodierework",
+}
+local PATCH_CONFLICT = {}
+--If the mod is a]ready loaded at this point
+for mod_name, key in pairs(CHECK_MODS) do
+	PATCH_CONFLICT[key] = PATCH_CONFLICT[key] or (GLOBAL.KnownModIndex:IsModEnabled(mod_name) and mod_name)
+end
+--If the mod hasn't loaded yet
+for k,v in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
+	local mod_type = CHECK_MODS[v]
+	if mod_type then
+		PATCH_CONFLICT[mod_type] = v
 	end
-	return false
 end
 
--- Some mods do things that should override these patches
-local overrides = {
-	maxwellminions = IsModLoaded("workshop-741272188"),
-	woodierework = IsModLoaded("workshop-888197520"),
-}
-
 local function patch(name)
-	if (GetModConfigData(name) ~= false) and not overrides[name] then
+	if (GetModConfigData(name) ~= false) and not PATCH_CONFLICT[name] then
 		modimport("scripts/patches/"..name..".lua")
 	end
 end
