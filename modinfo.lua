@@ -1,7 +1,7 @@
 name = "Rezecib's Rebalance"
 description = "Makes many modifications to the game in an attempt to rebalance weak or annoying mechanics, and tone down some of the overpowered ones."
 author = "rezecib"
-version = "1.3.3"
+version = "1.4.0"
 
 --[[
 Major miscellaneous changes:
@@ -68,11 +68,6 @@ Beefalo domestication:
 	In PvP only, collared beefalo can only be ridden by the player who collared them
 	Domesticated beefalo no longer share aggro like other beefalo
 
-Ancient Guardian:
-	When the nightmare cycle peaks, if the Ancient Guardian has been dead for 20 days then a ghost of it spawns
-	The Ancient Guardian Ghost can be revived by infusing it with an Ancient Guardian Horn and 8 meat
-	Every Summer, the Ancient Guardian respawns fully in the ruins
-	
 Magic Items:
 	The Night Light costs 2 more red gems and 4 more nightmare fuel,
 		but now functions like a Nightmare Fissure while lit, spawning nightmares that attack sane players
@@ -101,9 +96,6 @@ Minor miscellaneous changes:
 
 ==> TODO:
 
-Ancient Guardian:
-	Ancient Guardian has several zoning/ranged shadow attacks instead of just boring rhino AI
-	
 ==> Thinking about, but not sure:
 
 Bernie takes no damage from shadows, but can only pull one at a time
