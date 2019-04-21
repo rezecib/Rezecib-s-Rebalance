@@ -22,16 +22,8 @@ local overrides = {
 	woodierework = IsModLoaded("workshop-888197520"),
 }
 
-local IS_PUBLIC = not (
-		TheNet:GetServerLANOnly()
-	or	TheNet:GetServerFriendsOnly()
-	or	TheNet:GetServerClanOnly()
-	or	TheNet:GetServerHasPassword()
-)
-
--- The ~= false is just to make sure that if it's nil for some reason, it considers it true
 local function patch(name)
-	if (IS_PUBLIC or (GetModConfigData(name) ~= false)) and not overrides[name] then
+	if (GetModConfigData(name) ~= false) and not overrides[name] then
 		modimport("scripts/patches/"..name..".lua")
 	end
 end
