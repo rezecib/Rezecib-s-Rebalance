@@ -17,24 +17,6 @@ GLOBAL.AllRecipes.onemanband.ingredients[1].amount = 4 --gold
 GLOBAL.AllRecipes.onemanband.ingredients[2].amount = 6 --nightmare fuel
 GLOBAL.AllRecipes.onemanband.ingredients[3].amount = 4 --pig skin
 
--- Add a check for the fuel level of the blink object
-GLOBAL.ACTIONS.BLINK.fn = function(act)
-	if act.invobject ~= nil then
-		if act.invobject.components.blinkstaff ~= nil and not act.invobject.components.fueled:IsEmpty() then
-			return act.invobject.components.blinkstaff:Blink(act.pos, act.doer)
-		end
-	elseif act.doer ~= nil
-		and act.doer.sg ~= nil
-		and act.doer.sg.currentstate.name == "portal_jumpin_pre"
-		and act.pos ~= nil
-		and act.doer.components.inventory ~= nil
-		and act.doer.components.inventory:Has("wortox_soul", 1) then
-		act.doer.components.inventory:ConsumeByName("wortox_soul", 1)
-		act.doer.sg:GoToState("portal_jumpin", act.pos)
-		return true
-	end
-end
-
 local function HearPanFlute(inst, musician, instrument)
 	if inst ~= musician and
 		(TheNet:GetPVPEnabled() or not inst:HasTag("player")) and
@@ -118,6 +100,16 @@ end)
 local FUELTYPE = GLOBAL.FUELTYPE
 FUELTYPE.BAT = "BAT"
 FUELTYPE.ORANGEGEM = "ORANGEGEM"
+
+BlinkStaff = require("components/blinkstaff")
+local _BlinkStaff_Blink = BlinkStaff.Blink
+function BlinkStaff:Blink(pt, caster, ...)
+	if self.inst.components.fueled:IsEmpty() then
+		return false
+	end
+	return _BlinkStaff_Blink(self, pt, caster, ...)
+end
+
 
 if not GLOBAL.TheNet:GetIsServer() then return end
 
