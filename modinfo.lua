@@ -1,7 +1,7 @@
 name = "Rezecib's Rebalance"
 description = "Makes many modifications to the game in an attempt to rebalance weak or annoying mechanics, and tone down some of the overpowered ones."
 author = "rezecib"
-version = "1.4.1"
+version = "1.4.2"
 
 --[[
 Major miscellaneous changes:
