@@ -40,7 +40,7 @@ patch("giantitems")
 
 if not TheNet:GetIsServer() then return end
 
-patch("woodierework")
+-- patch("woodierework")
 patch("wx78rework")
 patch("wolfgangrework")
 patch("diseaseregrowth")
