@@ -13,7 +13,7 @@ I really recommend [subscribing on Steam](http://steamcommunity.com/sharedfiles/
 # Current change list:
 
 **Major miscellaneous changes:**
-- WX-78 drops all gears except one on death, but his overcharge stacks less
+- WX-78 drops all gears except one on death, but their overcharge stacks less
 - Players can't attack other's minions/followers unless PvP is on
 - Followers will get the same target at you as soon as you target, not at the start of the attack animation
 - Saplings are protected from disease by deciduous turf
